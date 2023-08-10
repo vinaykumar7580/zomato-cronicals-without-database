@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Zomato Menu</title>
+    <style>
+        body{
+            text-align: center;
+            margin: auto;
+        }
+        a{
+            text-decoration: none;
+        }
+        #nav{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0px 50px;
+            border-bottom: 1px solid black;
+        }
+        #link{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap:50px;
+        }
+        #container{
+            width: 70%;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            align-items: center;
+            gap:20px;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="nav">
+        <div>
+            <h2>Zomato Cronicals</h2>
+        </div>
+        <div id="link">
+            <h5><a href="/">Menu</a></h5>
+            <h5><a href="/order">Order</a></h5>
+        </div>
+
+    </div>
+    <br>
+    <h2>Menu</h3>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Add Dish</button>
+    </form>
+    <br>
+    <div id="container">
+      {% for dish in menu %}
+      <div style="border: 1px solid black; padding: 20px;">
+        <h3>{{ dish.name }}</h3>
+        <h4>${{ dish.price }}</h4>
+        <h4>{% if dish.availability %}
+                (Available)
+            {% else %}
+                (Not Available)
+            {% endif %}</h4>
+        <button><a href="{% url 'remove_dish' dish.id %}">Remove</a></button>
+        <button><a href="{% url 'update_availability' dish.id %}"
+          >Update Availability</a
+        ></button>
+      </div>
+      
+      {% empty %}
+          <li>No list available</li>
+      {% endfor %}
+    </div>
+    <br>
+    <br>
+  </body>
+</html>

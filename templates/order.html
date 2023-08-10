@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        body{
+            text-align: center;
+            margin: auto;
+        }
+        a{
+            text-decoration: none;
+        }
+        #nav{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0px 50px;
+            border-bottom: 1px solid black;
+        }
+        #link{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap:50px;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="nav">
+        <div>
+            <h2>Zomato Cronicals</h2>
+        </div>
+        <div id="link">
+            <h5><a href="/">Menu</a></h5>
+            <h5><a href="/order">Order</a></h5>
+            <h5><a href="/review_orders">Review Order</a></h5>
+        </div>
+
+    </div>
+    <br>
+    <h3>Place an Order</h3>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Place Order</button>
+    </form>
+    <br>
+    <div>
+        {% for dish in selected_dishes %}
+            <h4>
+                {{ dish.name }} - ${{ dish.price }}
+                <a href="{% url 'update_status' dish.id %}">Update Status</a>
+            </h4>
+        {% endfor %}
+    </div>
+    
+    <br>
+    {% if unavailable_dishes %}
+    <p class="error">The following dishes are not available:</p>
+    <div>
+        {% for dish in unavailable_dishes %}
+            <h4>{{ dish.name }}</h4>
+        {% endfor %}
+    </div>
+{% endif %}
+  </body>
+</html>
