@@ -1,0 +1,1 @@
+# zomato-cronicals-without-database
